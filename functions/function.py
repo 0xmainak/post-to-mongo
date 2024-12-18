@@ -18,11 +18,10 @@ async def main(table:str, db:str, collection:str, postgres: str, mongo: str):
     mongo = pymongo.MongoClient(mongo)
     
     collection = mongo[db][collection]
-
     rows = await postgres.fetch(f"SELECT * FROM {table}")
     rows = list(rows)
-    for row in rows:
 
+    for row in rows:
         keys = list(row.keys())
         values = list(row.values())
 
@@ -34,8 +33,6 @@ async def main(table:str, db:str, collection:str, postgres: str, mongo: str):
     
         collection.insert_one(document=document)
     print(f"Success: finished in {round(time.time()-tm, 1)} sec")
-
-
 
 def postgres_to_mongo(table:str, db:str, collection:str, postgres: str, mongo: str):
     asyncio.run(main(table=table, db=db, collection=collection, postgres=postgres, mongo=mongo ))
